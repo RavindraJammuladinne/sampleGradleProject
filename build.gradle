@@ -30,8 +30,8 @@ test {
 }
 
 // create Gradle wrapper with command line `gradle wrapper` in terminal
-//task wrapper(type: Wrapper) {
-//    gradleVersion = '1.12'
-//}
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14'
+}
 
-//mainClassName = "Main" // Main.java is located in src/main/java/Main.java
+mainClassName = "Main" // Main.java is located in src/main/java/Main.java
