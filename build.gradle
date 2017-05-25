@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'org.sonarqube'
+apply plugin: 'maven-publish'
 
 buildscript {
   repositories {
@@ -55,6 +56,15 @@ sonarqube {
     //property "sonar.sources", "src"
     //property "sonar.tests", "test"
   }
+}
+
+
+artifactoryPublish {
+    skip = false //Skip build info analysis and publishing (false by default)
+    contextUrl = 'http://pc274533:8070/artifactory'
+    clientConfig.publisher.repoKey = 'GridRepo'
+    clientConfig.publisher.username = 'admin'
+    clientConfig.publisher.password = 'password'
 }
 
 // create Gradle wrapper with command line `gradle wrapper` in terminal
