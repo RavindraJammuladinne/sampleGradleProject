@@ -3,6 +3,7 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'org.sonarqube'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
 
 buildscript {
   repositories {
@@ -58,14 +59,38 @@ sonarqube {
   }
 }
 
-
-artifactoryPublish {
-    skip = false //Skip build info analysis and publishing (false by default)
-    contextUrl = 'http://pc274533:8070/artifactory'
-    clientConfig.publisher.repoKey = 'GridRepo'
-    clientConfig.publisher.username = 'admin'
-    clientConfig.publisher.password = 'password'
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
+
+publishing {
+    publications {
+        main(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+    }
+}
+
+artifactory {
+    contextUrl = 'http://myartifactory/artifactory'
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+        }
+    }
+    publish {
+        repository {
+            repoKey = 'libs-snapshot-local'
+            username = 'whatever'
+            password = 'whatever123'
+        }
+        defaults {
+            publications 'main'
+        }
+    }
+}
+
 
 // create Gradle wrapper with command line `gradle wrapper` in terminal
 task wrapper(type: Wrapper) {
