@@ -8,12 +8,15 @@ apply plugin: 'com.jfrog.artifactory'
 buildscript {
   repositories {
     mavenCentral()
+    jcenter()
     maven {
       url "https://plugins.gradle.org/m2/"
     }
   }
   dependencies {
     classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5-rc1"
+    classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '3.0.1')
+    }
   }
 }
 
@@ -69,27 +72,28 @@ publishing {
         main(MavenPublication) {
             from components.java
             artifact sourcesJar
-    }
-}
-
-artifactory {
-    contextUrl = 'http://myartifactory/artifactory'
-    resolve {
-        repository {
-            repoKey = 'libs-release'
+            }
         }
-    }
-    publish {
-        repository {
-            repoKey = 'libs-snapshot-local'
-            username = 'whatever'
-            password = 'whatever123'
-        }
-        defaults {
-            publications 'main'
-        }
-    }
-}
+        
+    artifactory {
+        contextUrl = 'http://pc274533:8070/artifactory'
+        resolve {
+            repository {
+              repoKey = 'libs-release'
+              }
+            }
+        publish {
+            repository {
+              repoKey = 'Grid-dev-local'
+              username = 'admin'
+              password = 'password'
+              }
+            defaults {
+              publications 'main'
+              }
+          }
+      }
+   }
 
 
 // create Gradle wrapper with command line `gradle wrapper` in terminal
