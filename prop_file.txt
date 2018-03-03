@@ -1,0 +1,6 @@
+org.gradle.parallel=true
+artifactory_url= url
+artifactory_user=username
+artifactory_password=password
+
+currentVersion=version 

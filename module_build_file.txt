@@ -1,0 +1,24 @@
+// this is for to upload sources jar
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava 
+}
+
+// this is for to upload artifacts
+publishing {  
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java // this is jars publish
+	    //from components.web // this is for war publish
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+//this section is for dependencies
+dependencies {
+
+   
+}
